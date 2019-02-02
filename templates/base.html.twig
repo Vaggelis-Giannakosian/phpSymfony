@@ -162,7 +162,7 @@
             {#{{ dump() }}#}
             <p>My lovely variable {{ lovely_variable | default("The variable wasn't set")}}</p>
             <p>{{ name }}</p>
-            <h1>Hello {{ app.request.query.get('name') | default('AP User') }}</h1>
+            {#<h1>Hello {{ app.request.query.get('name') | default('AP User') }}</h1>#}
             <!-- DataTables Example -->
             <main>
                 {% block main %}{% endblock %}
