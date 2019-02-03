@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Controller;
-
-
+use App\Service\AccountServiceImpl;
+use App\Service\UserServiceImpl;
 use App\Entity\Account;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
+
+
     /**
      * @Route("/", name="index")
      * @param Request $request
@@ -20,7 +22,6 @@ class IndexController extends AbstractController
     public function index(Request $request)
 
     {
-
         $name = $request->query->get('name','default Name');
         return $this->render('index.html.twig',
             [
@@ -36,16 +37,37 @@ class IndexController extends AbstractController
      */
     public function save(){
         $entityManager = $this->getDoctrine()->getManager();
+        $user = new User();
+        $user->setName('Vagelakos');
+        $user->setPassword('tpt');
+        $user->setEmail('sad@asde.as');
+        $userService = new UserServiceImpl();
+        $userService->createUser($user, $entityManager);
+        return new Response('Saved a user with the id of '.$user->getId());
+
+    }
+    /**
+     * @Route("/account", name="account")
+     */
+    public function saveAccount(){
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $userService = new UserServiceImpl();
+        $user= $userService->findUserByUsername('Vagelakos',$repository);
+
         $account = new Account();
         $account->setUsername('asdfsdaf');
         $account->setPassword('asdfdsf');
-
-         $user = $this->findUserbyName('vagos');
         $account->setUser($user);
-        $entityManager->persist($account);
-        $entityManager->flush();
+        $accountService=new AccountServiceImpl();
+        $accountService->saveAccount($account,$entityManager);
+        return new Response('Saved a user with the id of '.$account->getId());
+//        $user = $this->findUserbyName('vagos');
 
-        return new Response('Saved a user with the id of '.$user->getId());
+//        $entityManager->persist($account);
+//        $entityManager->flush();
     }
     public function findUser ($id){
         $user = $this->getDoctrine()
@@ -54,12 +76,13 @@ class IndexController extends AbstractController
         return $user;
     }
 
-    public function findUserbyName($name){
-        $repository = $this->getDoctrine()->getRepository(User::class);
-        $user = $repository->findOneBy(['name' => $name]);
+//    public function findUserbyName($name){
+//        $repository = $this->getDoctrine()->getRepository(User::class);
+//        $user = $repository->findOneBy(['name' => $name]);
+//
+//        return $user;
+//    }
 
-        return $user;
-    }
 
 
 }
