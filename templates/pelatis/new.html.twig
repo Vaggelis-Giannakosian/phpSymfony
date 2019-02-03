@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Pelatis{% endblock %}
+
+{% block body %}
+    <h1>Create new Pelatis</h1>
+
+    {{ include('pelatis/_form.html.twig') }}
+
+    <a href="{{ path('pelatis_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Pelatis{% endblock %}
+
+{% block body %}
+    <h1>Edit Pelatis</h1>
+
+    {{ include('pelatis/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('pelatis_index') }}">back to list</a>
+
+    {{ include('pelatis/_delete_form.html.twig') }}
+{% endblock %}
