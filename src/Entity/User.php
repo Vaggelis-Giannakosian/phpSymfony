@@ -117,6 +117,16 @@ class User implements UserInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->email;
+        // to show the id of the Category in the select
+        // return $this->id;
+    }
+
+    /**
      * Returns the roles granted to the user.
      *
      *     public function getRoles()
@@ -167,4 +177,6 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
+
 }
